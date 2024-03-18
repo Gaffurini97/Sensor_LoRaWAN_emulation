@@ -1,0 +1,29 @@
+{
+    "gateway_conf": {
+        "gateway_ID": "43DB7798E9328D0F",
+        "server_address": "192.168.0.100",
+        "serv_port_up": 1700,
+        "serv_port_down": 1700,
+        "keepalive_interval": 10,
+        "stat_interval": 30,
+        "push_timeout_ms": 100,
+        "forward_crc_valid": true,
+        "forward_crc_error": false,
+        "forward_crc_disabled": false
+    },
+    "mqtt_communication":{
+        "host_name": "ie-databus",
+        "port": 1883,
+        "client_id": "usergwuno",
+        "username": "usren",
+        "password": "usren"
+    },
+    "actions_mapping":[
+        { "action": "JR", "topic": "/JoinReq" },
+        { "action": "JA", "topic": "/JoinAcpt" },
+        { "action": "UPn", "topic": "/Uplink" },
+        { "action": "DWn", "topic": "/Downlink" },
+        { "action": "disbALT","topic": "/DbALT" }
+    ]
+}
+

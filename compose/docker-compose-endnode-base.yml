@@ -1,0 +1,11 @@
+  ##### VIRTUAL-END-NODE ###
+  service_name:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - _VOLUME_
+    depends_on:
+          - _DEPENDS_   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb

@@ -1,0 +1,138 @@
+{
+  "initial_sleep_in_sec": 0,
+  "communication_type": 0,
+  "lorawan_info": {
+    "devEUI": "0000000000000217",
+    "joinEUI": "0000000000000217",
+    "appKey": "f0f861d9ea8ec08d756bd5b189c1a426",
+    "nodeName": "eui-217",
+    "last_dev_nonce": 906
+  },
+  "mqtt_communication": {
+    "host_name": "ie-databus",
+    "port": 1883,
+    "client_id": "userendnode_217",
+    "username": "usren",
+    "password": "usren"
+  },
+  "actions_mapping": [
+    {
+      "action": "RUS",
+      "topic": "/Radio/Uplink/"
+    },
+    {
+      "action": "RDR",
+      "topic": "/Radio/Downlink/"
+    },
+    {
+      "action": "JR",
+      "topic": "/JoinReq"
+    },
+    {
+      "action": "JA",
+      "topic": "/JoinAcpt"
+    },
+    {
+      "action": "UPn",
+      "topic": "/Uplink"
+    },
+    {
+      "action": "DWn",
+      "topic": "/Downlink"
+    },
+    {
+      "action": "disUPn",
+      "topic": "/DUplink/"
+    },
+    {
+      "action": "disDWn",
+      "topic": "/DDownlink/0000000000000217"
+    },
+    {
+      "action": "disbALT",
+      "topic": "/DbALT"
+    }
+  ],
+  "node": {
+    "serial": {
+      "port": "/dev/ttyACM0",
+      "baudrate": 57600,
+      "bytesize": 8,
+      "parity": "N",
+      "stopbits": 1,
+      "timeout": 5
+    },
+    "radio": {
+      "params": [
+        {
+          "name": "bt",
+          "value": "none"
+        },
+        {
+          "name": "mod",
+          "value": "lora"
+        },
+        {
+          "name": "freq",
+          "value": "868000000"
+        },
+        {
+          "name": "pwr",
+          "value": 4
+        },
+        {
+          "name": "sf",
+          "value": "sf7"
+        },
+        {
+          "name": "afcbw",
+          "value": 125
+        },
+        {
+          "name": "rxbw",
+          "value": 250
+        },
+        {
+          "name": "bitrate",
+          "value": 5000
+        },
+        {
+          "name": "fdev",
+          "value": 5000
+        },
+        {
+          "name": "prlen",
+          "value": 8
+        },
+        {
+          "name": "crc",
+          "value": "on"
+        },
+        {
+          "name": "iqi",
+          "value": "off"
+        },
+        {
+          "name": "cr",
+          "value": "4/5"
+        },
+        {
+          "name": "wdt",
+          "value": 2000
+        },
+        {
+          "name": "sync",
+          "value": "34"
+        },
+        {
+          "name": "bw",
+          "value": 125
+        }
+      ],
+      "default_tx_port": 1,
+      "rx_windows_size": 0
+    },
+    "wait-after-tx-in-s": 5,
+    "default-confirmed": false
+  }
+}

@@ -1,0 +1,18 @@
+version: '2.4'
+services:
+  gw1:
+    image: 'generic-gateway-image:v10'
+    command: ./execgateway
+    ports:
+      - "1700:1700/udp"
+    networks:
+      proxy-redirect:
+    volumes:
+      - './publish/:/publish/'
+      - './cfg-data/:/cfg-data/'
+    mem_limit: 50mb
+networks:
+  proxy-redirect:
+    external:
+      name: proxy-redirect
+    driver: bridge

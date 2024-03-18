@@ -1,0 +1,33 @@
+version: '2.4'                                # docker-compose version is set to 2.4 
+
+services:
+
+##### BROKER-MQTT ####
+
+  mqtt-broker:
+      image: eclipse-mosquitto:$MQTT_VERSION  # define image to pull from docker hub if not already on your machine available
+      container_name: ie-databus              # Name of MQTT broker container
+      hostname: ie_databus
+      restart: unless-stopped                 # always restarts (see overview page 12 Industrial Edge Developer Guide)
+      logging:                                # allow logging
+        options:                              # we use best pactice here as limiting file size and rolling mechanism
+          max-size: "10m"                     # File size is 10MB
+          max-file: "2"                       # only 2 files created before rolling mechanism applies
+      ports:                                  # expose of ports and publish
+        - "1883:1883"                         # map containers default MQTT port (1883) to host's port 33083
+      networks:                               # define networks connected to container 'mqtt-broker' 
+        proxy-redirect:                       # Name of the network
+      
+##### VIRTUAL-GATEWAY ####
+  gw1:
+    image: 'lorawanlocale_gw1:latest'
+    command: ./execgateway
+    container_name: gw1
+    ports:
+      - "1700:1700/udp"
+    volumes:
+      - './gateway/cfg-data/:/cfg-data/'
+    networks:
+      proxy-redirect:
+    depends_on:
+      - mqtt-broker

@@ -1,0 +1,1260 @@
+version: '2.4'                                # docker-compose version is set to 2.4 
+
+services:
+
+##### BROKER-MQTT ####
+
+  mqtt-broker:
+      image: eclipse-mosquitto:$MQTT_VERSION  # define image to pull from docker hub if not already on your machine available
+      container_name: ie-databus              # Name of MQTT broker container
+      hostname: ie_databus
+      restart: unless-stopped                 # always restarts (see overview page 12 Industrial Edge Developer Guide)
+      logging:                                # allow logging
+        options:                              # we use best pactice here as limiting file size and rolling mechanism
+          max-size: "10m"                     # File size is 10MB
+          max-file: "2"                       # only 2 files created before rolling mechanism applies
+      ports:                                  # expose of ports and publish
+        - "1883:1883"                         # map containers default MQTT port (1883) to host's port 33083
+      networks:                               # define networks connected to container 'mqtt-broker' 
+        proxy-redirect:                       # Name of the network
+      
+##### VIRTUAL-GATEWAY ####
+  gw1:
+    image: 'lorawanlocale_gw1:latest'
+    command: ./execgateway
+    container_name: gw1
+    ports:
+      - "1700:1700/udp"
+    volumes:
+      - './gateway/cfg-data/:/cfg-data/'
+    networks:
+      proxy-redirect:
+    depends_on:
+      - mqtt-broker
+
+  ##### VIRTUAL-END-NODE ###
+  Device_1:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data1/:/cfg-data/
+    depends_on:
+          - gw1   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_2:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data2/:/cfg-data/
+    depends_on:
+          - Device_1   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_3:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data3/:/cfg-data/
+    depends_on:
+          - Device_2   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_4:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data4/:/cfg-data/
+    depends_on:
+          - Device_3   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_5:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data5/:/cfg-data/
+    depends_on:
+          - Device_4   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_6:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data6/:/cfg-data/
+    depends_on:
+          - Device_5   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_7:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data7/:/cfg-data/
+    depends_on:
+          - Device_6   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_8:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data8/:/cfg-data/
+    depends_on:
+          - Device_7   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_9:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data9/:/cfg-data/
+    depends_on:
+          - Device_8   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_10:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data10/:/cfg-data/
+    depends_on:
+          - Device_9   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_11:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data11/:/cfg-data/
+    depends_on:
+          - Device_10   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_12:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data12/:/cfg-data/
+    depends_on:
+          - Device_11   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_13:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data13/:/cfg-data/
+    depends_on:
+          - Device_12   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_14:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data14/:/cfg-data/
+    depends_on:
+          - Device_13   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_15:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data15/:/cfg-data/
+    depends_on:
+          - Device_14   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_16:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data16/:/cfg-data/
+    depends_on:
+          - Device_15   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_17:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data17/:/cfg-data/
+    depends_on:
+          - Device_16   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_18:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data18/:/cfg-data/
+    depends_on:
+          - Device_17   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_19:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data19/:/cfg-data/
+    depends_on:
+          - Device_18   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_20:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data20/:/cfg-data/
+    depends_on:
+          - Device_19   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_21:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data21/:/cfg-data/
+    depends_on:
+          - Device_20   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_22:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data22/:/cfg-data/
+    depends_on:
+          - Device_21   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_23:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data23/:/cfg-data/
+    depends_on:
+          - Device_22   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_24:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data24/:/cfg-data/
+    depends_on:
+          - Device_23   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_25:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data25/:/cfg-data/
+    depends_on:
+          - Device_24   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_26:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data26/:/cfg-data/
+    depends_on:
+          - Device_25   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_27:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data27/:/cfg-data/
+    depends_on:
+          - Device_26   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_28:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data28/:/cfg-data/
+    depends_on:
+          - Device_27   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_29:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data29/:/cfg-data/
+    depends_on:
+          - Device_28   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_30:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data30/:/cfg-data/
+    depends_on:
+          - Device_29   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_31:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data31/:/cfg-data/
+    depends_on:
+          - Device_30   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_32:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data32/:/cfg-data/
+    depends_on:
+          - Device_31   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_33:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data33/:/cfg-data/
+    depends_on:
+          - Device_32   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_34:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data34/:/cfg-data/
+    depends_on:
+          - Device_33   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_35:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data35/:/cfg-data/
+    depends_on:
+          - Device_34   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_36:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data36/:/cfg-data/
+    depends_on:
+          - Device_35   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_37:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data37/:/cfg-data/
+    depends_on:
+          - Device_36   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_38:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data38/:/cfg-data/
+    depends_on:
+          - Device_37   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_39:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data39/:/cfg-data/
+    depends_on:
+          - Device_38   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_40:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data40/:/cfg-data/
+    depends_on:
+          - Device_39   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_41:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data41/:/cfg-data/
+    depends_on:
+          - Device_40   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_42:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data42/:/cfg-data/
+    depends_on:
+          - Device_41   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_43:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data43/:/cfg-data/
+    depends_on:
+          - Device_42   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_44:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data44/:/cfg-data/
+    depends_on:
+          - Device_43   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_45:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data45/:/cfg-data/
+    depends_on:
+          - Device_44   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_46:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data46/:/cfg-data/
+    depends_on:
+          - Device_45   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_47:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data47/:/cfg-data/
+    depends_on:
+          - Device_46   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_48:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data48/:/cfg-data/
+    depends_on:
+          - Device_47   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_49:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data49/:/cfg-data/
+    depends_on:
+          - Device_48   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_50:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data50/:/cfg-data/
+    depends_on:
+          - Device_49   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_51:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data51/:/cfg-data/
+    depends_on:
+          - Device_50   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_52:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data52/:/cfg-data/
+    depends_on:
+          - Device_51   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_53:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data53/:/cfg-data/
+    depends_on:
+          - Device_52   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_54:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data54/:/cfg-data/
+    depends_on:
+          - Device_53   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_55:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data55/:/cfg-data/
+    depends_on:
+          - Device_54   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_56:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data56/:/cfg-data/
+    depends_on:
+          - Device_55   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_57:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data57/:/cfg-data/
+    depends_on:
+          - Device_56   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_58:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data58/:/cfg-data/
+    depends_on:
+          - Device_57   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_59:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data59/:/cfg-data/
+    depends_on:
+          - Device_58   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_60:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data60/:/cfg-data/
+    depends_on:
+          - Device_59   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_61:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data61/:/cfg-data/
+    depends_on:
+          - Device_60   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_62:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data62/:/cfg-data/
+    depends_on:
+          - Device_61   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_63:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data63/:/cfg-data/
+    depends_on:
+          - Device_62   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_64:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data64/:/cfg-data/
+    depends_on:
+          - Device_63   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_65:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data65/:/cfg-data/
+    depends_on:
+          - Device_64   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_66:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data66/:/cfg-data/
+    depends_on:
+          - Device_65   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_67:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data67/:/cfg-data/
+    depends_on:
+          - Device_66   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_68:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data68/:/cfg-data/
+    depends_on:
+          - Device_67   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_69:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data69/:/cfg-data/
+    depends_on:
+          - Device_68   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_70:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data70/:/cfg-data/
+    depends_on:
+          - Device_69   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_71:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data71/:/cfg-data/
+    depends_on:
+          - Device_70   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_72:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data72/:/cfg-data/
+    depends_on:
+          - Device_71   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_73:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data73/:/cfg-data/
+    depends_on:
+          - Device_72   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_74:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data74/:/cfg-data/
+    depends_on:
+          - Device_73   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_75:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data75/:/cfg-data/
+    depends_on:
+          - Device_74   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_76:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data76/:/cfg-data/
+    depends_on:
+          - Device_75   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_77:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data77/:/cfg-data/
+    depends_on:
+          - Device_76   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_78:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data78/:/cfg-data/
+    depends_on:
+          - Device_77   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_79:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data79/:/cfg-data/
+    depends_on:
+          - Device_78   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_80:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data80/:/cfg-data/
+    depends_on:
+          - Device_79   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_81:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data81/:/cfg-data/
+    depends_on:
+          - Device_80   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_82:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data82/:/cfg-data/
+    depends_on:
+          - Device_81   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_83:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data83/:/cfg-data/
+    depends_on:
+          - Device_82   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_84:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data84/:/cfg-data/
+    depends_on:
+          - Device_83   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_85:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data85/:/cfg-data/
+    depends_on:
+          - Device_84   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_86:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data86/:/cfg-data/
+    depends_on:
+          - Device_85   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_87:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data87/:/cfg-data/
+    depends_on:
+          - Device_86   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_88:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data88/:/cfg-data/
+    depends_on:
+          - Device_87   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_89:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data89/:/cfg-data/
+    depends_on:
+          - Device_88   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_90:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data90/:/cfg-data/
+    depends_on:
+          - Device_89   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_91:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data91/:/cfg-data/
+    depends_on:
+          - Device_90   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_92:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data92/:/cfg-data/
+    depends_on:
+          - Device_91   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_93:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data93/:/cfg-data/
+    depends_on:
+          - Device_92   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_94:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data94/:/cfg-data/
+    depends_on:
+          - Device_93   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_95:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data95/:/cfg-data/
+    depends_on:
+          - Device_94   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_96:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data96/:/cfg-data/
+    depends_on:
+          - Device_95   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_97:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data97/:/cfg-data/
+    depends_on:
+          - Device_96   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_98:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data98/:/cfg-data/
+    depends_on:
+          - Device_97   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_99:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data99/:/cfg-data/
+    depends_on:
+          - Device_98   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ##### VIRTUAL-END-NODE ###
+  Device_100:
+    image: 'lorawanlocale_en1:latest'
+    command: ./execnode
+    volumes:
+      - ./end-device/cfg-data100/:/cfg-data/
+    depends_on:
+          - Device_99   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+  ###### NODE-RED ######
+  nodered:
+    image: 'lorawanlocale_nodered:latest'
+    container_name: nodered                   # Name of the node-red container
+    restart: unless-stopped                   # always restarts (see overview page 12 Industrial Edge Developer Guide)
+    environment:                              # Environment variables available at container run-time
+      http_proxy: $http_proxy                 # Proxy url's from environment
+      https_proxy: $https_proxy
+    logging:                                  # allow logging
+      options:                                # we use best pactice here as limiting file size and rolling mechanism
+        max-size: "10m"                       # File size is 10MB
+        max-file: "2"                         # only 2 files created before rolling mechanism applies
+    ports:                                    # expose of ports and publish
+      - "33080:1880"                          # map containers port 33080 to host's port 1880
+    networks:                                 # define networks connected to container 'data-analytics' 
+      proxy-redirect:                         # Name of the network
+    external_links:                            # Dependencie on other container
+      - influxdb                               # Wait for start of container 'influxdb'
+
+
+###### NETWORK CONFIG ######
+networks:                           # Network interface configuration
+  proxy-redirect:                   # Reference 'proxy-redirect' as predefined network
+    external:                       # Note: Please create the network manually as it is preexisting on Industrial Edge Device
+      name: proxy-redirect
+    driver: bridge

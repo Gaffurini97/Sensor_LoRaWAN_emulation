@@ -1,0 +1,23 @@
+version: '2.4'                                # docker-compose version is set to 2.4 
+
+services:
+
+  ##### VIRTUAL-GATEWAY ####
+  gw1:
+    build:
+      context: ./gateway
+    command: ./execgateway
+    container_name: gw1
+    ports:
+      - "1700:1700/udp"
+    volumes:
+      - './gateway/cfg-data/:/cfg-data/'
+    networks:
+      proxy-redirect:
+
+###### NETWORK CONFIG ######
+networks:                           # Network interface configuration
+  proxy-redirect:                   # Reference 'proxy-redirect' as predefined network
+    external:                       # Note: Please create the network manually as it is preexisting on Industrial Edge Device
+      name: proxy-redirect
+    driver: bridge

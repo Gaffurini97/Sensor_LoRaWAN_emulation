@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "lora_node_communication.h": "c",
+        "enmqtt.h": "c",
+        "actions.h": "c",
+        "actions_init.h": "c",
+        "actions_common.h": "c",
+        "stdlib.h": "c"
+    }
+}

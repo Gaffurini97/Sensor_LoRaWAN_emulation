@@ -1,0 +1,18 @@
+  ###### NODE-RED ######
+  nodered:
+    image: 'lorawanlocale_nodered:latest'
+    container_name: nodered                   # Name of the node-red container
+    restart: unless-stopped                   # always restarts (see overview page 12 Industrial Edge Developer Guide)
+    environment:                              # Environment variables available at container run-time
+      http_proxy: $http_proxy                 # Proxy url's from environment
+      https_proxy: $https_proxy
+    logging:                                  # allow logging
+      options:                                # we use best pactice here as limiting file size and rolling mechanism
+        max-size: "10m"                       # File size is 10MB
+        max-file: "2"                         # only 2 files created before rolling mechanism applies
+    ports:                                    # expose of ports and publish
+      - "33080:1880"                          # map containers port 33080 to host's port 1880
+    networks:                                 # define networks connected to container 'data-analytics' 
+      proxy-redirect:                         # Name of the network
+    external_links:                            # Dependencie on other container
+      - influxdb                               # Wait for start of container 'influxdb'

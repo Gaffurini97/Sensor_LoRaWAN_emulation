@@ -1,0 +1,23 @@
+version: '2.4'                                # docker-compose version is set to 2.4 
+
+services:
+
+  ##### VIRTUAL-END-NODE ###
+  en1:
+    build:
+      context: ./end-device
+    command: ./execnode
+    container_name: ${SERVICENAME}
+    volumes:
+      - ${VOLUME}   
+    networks:
+      proxy-redirect:
+    mem_limit: 30mb
+
+
+###### NETWORK CONFIG ######
+networks:                           # Network interface configuration
+  proxy-redirect:                   # Reference 'proxy-redirect' as predefined network
+    external:                       # Note: Please create the network manually as it is preexisting on Industrial Edge Device
+      name: proxy-redirect
+    driver: bridge
